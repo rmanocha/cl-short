@@ -13,6 +13,10 @@
 
 (defpage "/short" {:as long-url}
          (common/layout
-           (form-to [:post "/post-url/"]
+           (form-to [:post "/short"]
                     (forms/long-url-fields long-url)
                     (submit-button "Shorten URL"))))
+
+(defpage [:post "/short"] {:as long-url}
+  (common/layout
+    [:p "Url Shortened"]))
