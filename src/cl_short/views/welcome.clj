@@ -6,7 +6,7 @@
             [cl-short.models.short_url :as surl])
   (:use [noir.core :only [defpage]]
         [hiccup.core :only [html]]
-        [noir.response :as rsp]
+        [noir.response :only [redirect]]
         hiccup.form-helpers))
 
 (defpage "/short" {:as long-url}
@@ -19,7 +19,7 @@
   (redis/with-server surl/redis-config
     (do
       (if-let [long-url (redis/get (str "http://localhost:8080/" url-key))]
-        (rsp/redirect long-url)))))
+        (redirect long-url)))))
 
 (defpage [:post "/short"] {:as long-url}
   (common/layout
