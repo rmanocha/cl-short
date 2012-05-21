@@ -5,17 +5,20 @@
             [cl-short.forms :as forms])
   (:use [noir.core :only [defpage]]
         [hiccup.core :only [html]]
+        [noir.response :as resp]
         hiccup.form-helpers))
-
-(defpage "/welcome" []
-         (common/layout
-           [:p "Welcome to cl-short"]))
 
 (defpage "/short" {:as long-url}
          (common/layout
            (form-to [:post "/short"]
                     (forms/long-url-fields long-url)
                     (submit-button "Shorten URL"))))
+
+(defpage "/:url-key" {:keys [url-key]}
+  (redis/with-server {:host "127.0.0.1" :port 6379 :db 0}
+    (do
+      (if-let [long-url (redis/get (str "http://localhost:8080/" url-key))]
+        (resp/redirect long-url)))))
 
 (defn get-short-url [{:keys [long-url]}]
   (redis/with-server {:host "127.0.0.1" :port 6379 :db 0}
