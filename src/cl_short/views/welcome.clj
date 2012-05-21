@@ -11,7 +11,7 @@
 ; This came from http://thecomputersarewinning.com/post/clojure-heroku-noir-mongo/
 (defn split-redis-url [url]
   "Parses redistogo url from heroku, eg. redis://username:password@my.host:6789"
-  (let [matcher (re-matcher #"^.*://(.*?):(.*?)@(.*?):(\d+)$" url)] ;; Setup the regex.
+  (let [matcher (re-matcher #"^.*://(.*?):(.*?)@(.*?):(\d+)/$" url)] ;; Setup the regex.
     (when (.find matcher) ;; Check if it matches.
       (let [config-map (zipmap [:match :user :password :host :port] (re-groups matcher))]
         (update-in config-map [:port] #(Integer/parseInt %))))))
