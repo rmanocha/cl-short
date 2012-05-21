@@ -23,7 +23,8 @@
 (defn get-short-url [{:keys [long-url]}]
   (redis/with-server {:host "127.0.0.1" :port 6379 :db 0}
     (do
-      (if (nil? (redis/get long-url))
+      (if-let [surl (redis/get long-url)]
+        surl
         (let [next-val
               (if (nil? (redis/get "next-val"))
                 (redis/set "next-val" 1)
@@ -31,8 +32,7 @@
               full-url (str "http://localhost:8080/" next-val)]
           (redis/set full-url long-url)
           (redis/set long-url full-url)
-          full-url))
-        (redis/get long-url))))
+          full-url)))))
 
 (defpage [:post "/short"] {:as long-url}
   (common/layout
