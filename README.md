@@ -1,6 +1,7 @@
-# cl-short
+cl-short
+========
 
-A website written in noir. 
+A URL shortener written in Clojure/Noir. This is a very naive implementation.
 
 ## Usage
 
