@@ -11,6 +11,8 @@
 
 (def redis-config (split-redis-url (get (System/getenv) "REDISTOGO_URL")))
 
+(def BASE_IRI (or (System/getenv "BASE_IRI") "http://localhost:8080/"))
+
 (defn get-short-url [{:keys [long-url]}]
   (redis/with-server redis-config
     (do
@@ -20,7 +22,7 @@
               (if (nil? (redis/get "next-val"))
                 (redis/set "next-val" 1)
                 (redis/incr "next-val"))
-              full-url (str "http://localhost:8080/" next-val)]
+              full-url (str BASE_IRI next-val)]
           (redis/set full-url long-url)
           (redis/set long-url full-url)
           full-url)))))

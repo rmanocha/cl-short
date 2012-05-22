@@ -18,7 +18,7 @@
 (defpage "/:url-key" {:keys [url-key]}
   (redis/with-server surl/redis-config
     (do
-      (if-let [long-url (redis/get (str "http://localhost:8080/" url-key))]
+      (if-let [long-url (redis/get (str surl/BASE_IRI url-key))]
         (redirect long-url)))))
 
 (defpage [:post "/short"] {:as long-url}
