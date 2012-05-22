@@ -3,6 +3,12 @@ cl-short
 
 A URL shortener written in Clojure/Noir. This is a very naive implementation.
 
+If deploying to heroku, execute ::
+
+```bash
+heroku config:add BASE_IRI={{ my app url }}
+```
+
 ## Usage
 
 ```bash
