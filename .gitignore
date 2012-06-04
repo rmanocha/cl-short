@@ -6,3 +6,4 @@ pom.xml
 *.swp
 *.orig
 redis.conf
+*.project
